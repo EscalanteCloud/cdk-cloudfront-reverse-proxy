@@ -1,0 +1,787 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree"
+      },
+      "CdkCloudfrontReverseProxyStack": {
+        "id": "CdkCloudfrontReverseProxyStack",
+        "path": "CdkCloudfrontReverseProxyStack",
+        "children": {
+          "HostedZone": {
+            "id": "HostedZone",
+            "path": "CdkCloudfrontReverseProxyStack/HostedZone"
+          },
+          "Certificate": {
+            "id": "Certificate",
+            "path": "CdkCloudfrontReverseProxyStack/Certificate",
+            "children": {
+              "CertificateRequestorFunction": {
+                "id": "CertificateRequestorFunction",
+                "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction",
+                "children": {
+                  "ServiceRole": {
+                    "id": "ServiceRole",
+                    "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/ServiceRole",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/ServiceRole/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "lambda.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "DefaultPolicy": {
+                        "id": "DefaultPolicy",
+                        "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/ServiceRole/DefaultPolicy",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/ServiceRole/DefaultPolicy/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyDocument": {
+                                  "Statement": [
+                                    {
+                                      "Action": [
+                                        "acm:RequestCertificate",
+                                        "acm:DescribeCertificate",
+                                        "acm:DeleteCertificate"
+                                      ],
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "route53:GetChange",
+                                      "Effect": "Allow",
+                                      "Resource": "*"
+                                    },
+                                    {
+                                      "Action": "route53:changeResourceRecordSets",
+                                      "Effect": "Allow",
+                                      "Resource": {
+                                        "Fn::Join": [
+                                          "",
+                                          [
+                                            "arn:",
+                                            {
+                                              "Ref": "AWS::Partition"
+                                            },
+                                            ":route53:::hostedzone/Z00235104U20H7X9ENQ3"
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "Version": "2012-10-17"
+                                },
+                                "policyName": "CertificateCertificateRequestorFunctionServiceRoleDefaultPolicy3C8845BC",
+                                "roles": [
+                                  {
+                                    "Ref": "CertificateCertificateRequestorFunctionServiceRoleC04C13DA"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Code": {
+                    "id": "Code",
+                    "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/Code",
+                    "children": {
+                      "Stage": {
+                        "id": "Stage",
+                        "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/Code/Stage"
+                      },
+                      "AssetBucket": {
+                        "id": "AssetBucket",
+                        "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/Code/AssetBucket"
+                      }
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorFunction/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                      "aws:cdk:cloudformation:props": {
+                        "code": {
+                          "s3Bucket": {
+                            "Ref": "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3BucketFCCD3A76"
+                          },
+                          "s3Key": {
+                            "Fn::Join": [
+                              "",
+                              [
+                                {
+                                  "Fn::Select": [
+                                    0,
+                                    {
+                                      "Fn::Split": [
+                                        "||",
+                                        {
+                                          "Ref": "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3VersionKey07AF06B6"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Fn::Select": [
+                                    1,
+                                    {
+                                      "Fn::Split": [
+                                        "||",
+                                        {
+                                          "Ref": "AssetParameters19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2S3VersionKey07AF06B6"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        },
+                        "handler": "index.certificateRequestHandler",
+                        "role": {
+                          "Fn::GetAtt": [
+                            "CertificateCertificateRequestorFunctionServiceRoleC04C13DA",
+                            "Arn"
+                          ]
+                        },
+                        "runtime": "nodejs10.x",
+                        "timeout": 900
+                      }
+                    }
+                  }
+                }
+              },
+              "CertificateRequestorResource": {
+                "id": "CertificateRequestorResource",
+                "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "CdkCloudfrontReverseProxyStack/Certificate/CertificateRequestorResource/Default"
+                  }
+                }
+              }
+            }
+          },
+          "AssetParameters": {
+            "id": "AssetParameters",
+            "path": "CdkCloudfrontReverseProxyStack/AssetParameters",
+            "children": {
+              "19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2": {
+                "id": "19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2",
+                "path": "CdkCloudfrontReverseProxyStack/AssetParameters/19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/19e461d2ff1a5b90438fed6ceee4c197d7efee8712a6f76d85b501ab20bfb1a2/ArtifactHash"
+                  }
+                }
+              },
+              "c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176": {
+                "id": "c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176",
+                "path": "CdkCloudfrontReverseProxyStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/c9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176/ArtifactHash"
+                  }
+                }
+              },
+              "cacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24e": {
+                "id": "cacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24e",
+                "path": "CdkCloudfrontReverseProxyStack/AssetParameters/cacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24e",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/cacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24e/S3Bucket"
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/cacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24e/S3VersionKey"
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "CdkCloudfrontReverseProxyStack/AssetParameters/cacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24e/ArtifactHash"
+                  }
+                }
+              }
+            }
+          },
+          "test.escalantecloud.com": {
+            "id": "test.escalantecloud.com",
+            "path": "CdkCloudfrontReverseProxyStack/test.escalantecloud.com",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkCloudfrontReverseProxyStack/test.escalantecloud.com/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {}
+                }
+              },
+              "Notifications": {
+                "id": "Notifications",
+                "path": "CdkCloudfrontReverseProxyStack/test.escalantecloud.com/Notifications"
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "CdkCloudfrontReverseProxyStack/test.escalantecloud.com/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkCloudfrontReverseProxyStack/test.escalantecloud.com/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "testescalantecloudcom47517EA8"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:GetObject*",
+                                "s3:GetBucket*",
+                                "s3:List*"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "CanonicalUser": {
+                                  "Fn::GetAtt": [
+                                    "OAIE1EFC67F",
+                                    "S3CanonicalUserId"
+                                  ]
+                                }
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "testescalantecloudcom47517EA8",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "testescalantecloudcom47517EA8",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "deployment": {
+            "id": "deployment",
+            "path": "CdkCloudfrontReverseProxyStack/deployment",
+            "children": {
+              "CustomResourceHandler": {
+                "id": "CustomResourceHandler",
+                "path": "CdkCloudfrontReverseProxyStack/deployment/CustomResourceHandler"
+              },
+              "Asset1": {
+                "id": "Asset1",
+                "path": "CdkCloudfrontReverseProxyStack/deployment/Asset1",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "CdkCloudfrontReverseProxyStack/deployment/Asset1/Stage"
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "CdkCloudfrontReverseProxyStack/deployment/Asset1/AssetBucket"
+                  }
+                }
+              },
+              "CustomResource": {
+                "id": "CustomResource",
+                "path": "CdkCloudfrontReverseProxyStack/deployment/CustomResource",
+                "children": {
+                  "Default": {
+                    "id": "Default",
+                    "path": "CdkCloudfrontReverseProxyStack/deployment/CustomResource/Default"
+                  }
+                }
+              }
+            }
+          },
+          "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": {
+            "id": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Ref": "AssetParameterscacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24eS3BucketE302B9FC"
+                                          }
+                                        ]
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "arn:",
+                                          {
+                                            "Ref": "AWS::Partition"
+                                          },
+                                          ":s3:::",
+                                          {
+                                            "Ref": "AssetParameterscacff41faf79051f57cd45234b3b18d309b9a3ec62f26207f14df96a3969b24eS3BucketE302B9FC"
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "s3:GetObject*",
+                                    "s3:GetBucket*",
+                                    "s3:List*",
+                                    "s3:DeleteObject*",
+                                    "s3:PutObject*",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "testescalantecloudcom47517EA8",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "testescalantecloudcom47517EA8",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+                            "roles": [
+                              {
+                                "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/Stage"
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket"
+                  }
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkCloudfrontReverseProxyStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3Bucket77147E20"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3VersionKey4253216F"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersc9ac4b3b65f3510a2088b7fd003de23d2aefac424025eb168725ce6769e3c176S3VersionKey4253216F"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.6",
+                    "timeout": 900
+                  }
+                }
+              }
+            }
+          },
+          "OAI": {
+            "id": "OAI",
+            "path": "CdkCloudfrontReverseProxyStack/OAI",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkCloudfrontReverseProxyStack/OAI/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+                  "aws:cdk:cloudformation:props": {
+                    "cloudFrontOriginAccessIdentityConfig": {
+                      "comment": "Access created by CDK"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Distribution": {
+            "id": "Distribution",
+            "path": "CdkCloudfrontReverseProxyStack/Distribution",
+            "children": {
+              "AliasConfigurationCert": {
+                "id": "AliasConfigurationCert",
+                "path": "CdkCloudfrontReverseProxyStack/Distribution/AliasConfigurationCert"
+              },
+              "CFDistribution": {
+                "id": "CFDistribution",
+                "path": "CdkCloudfrontReverseProxyStack/Distribution/CFDistribution",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudFront::Distribution",
+                  "aws:cdk:cloudformation:props": {
+                    "distributionConfig": {
+                      "enabled": true,
+                      "defaultRootObject": "index.html",
+                      "httpVersion": "http2",
+                      "priceClass": "PriceClass_100",
+                      "ipv6Enabled": true,
+                      "origins": [
+                        {
+                          "id": "origin1",
+                          "domainName": "blog.dan-russell.com",
+                          "customOriginConfig": {
+                            "httpPort": 80,
+                            "httpsPort": 443,
+                            "originKeepaliveTimeout": 5,
+                            "originReadTimeout": 30,
+                            "originProtocolPolicy": "https-only",
+                            "originSslProtocols": [
+                              "TLSv1.2"
+                            ]
+                          },
+                          "connectionAttempts": 3,
+                          "connectionTimeout": 10
+                        },
+                        {
+                          "id": "origin2",
+                          "domainName": {
+                            "Fn::GetAtt": [
+                              "testescalantecloudcom47517EA8",
+                              "RegionalDomainName"
+                            ]
+                          },
+                          "s3OriginConfig": {
+                            "originAccessIdentity": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "origin-access-identity/cloudfront/",
+                                  {
+                                    "Ref": "OAIE1EFC67F"
+                                  }
+                                ]
+                              ]
+                            }
+                          },
+                          "connectionAttempts": 3,
+                          "connectionTimeout": 10
+                        }
+                      ],
+                      "defaultCacheBehavior": {
+                        "allowedMethods": [
+                          "GET",
+                          "HEAD",
+                          "OPTIONS"
+                        ],
+                        "cachedMethods": [
+                          "GET",
+                          "HEAD"
+                        ],
+                        "compress": true,
+                        "forwardedValues": {
+                          "queryString": true
+                        },
+                        "targetOriginId": "origin2",
+                        "viewerProtocolPolicy": "redirect-to-https"
+                      },
+                      "cacheBehaviors": [
+                        {
+                          "allowedMethods": [
+                            "GET",
+                            "HEAD",
+                            "OPTIONS"
+                          ],
+                          "cachedMethods": [
+                            "GET",
+                            "HEAD"
+                          ],
+                          "compress": true,
+                          "forwardedValues": {
+                            "queryString": true
+                          },
+                          "targetOriginId": "origin1",
+                          "viewerProtocolPolicy": "redirect-to-https",
+                          "pathPattern": "/blog/*"
+                        }
+                      ],
+                      "aliases": [
+                        "test.escalantecloud.com",
+                        "*.test.escalantecloud.com"
+                      ],
+                      "viewerCertificate": {
+                        "acmCertificateArn": {
+                          "Fn::GetAtt": [
+                            "CertificateCertificateRequestorResource2890C6B7",
+                            "Arn"
+                          ]
+                        },
+                        "sslSupportMethod": "sni-only"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ARecord": {
+            "id": "ARecord",
+            "path": "CdkCloudfrontReverseProxyStack/ARecord",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkCloudfrontReverseProxyStack/ARecord/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Route53::RecordSet",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "test.escalantecloud.com.",
+                    "type": "A",
+                    "aliasTarget": {
+                      "hostedZoneId": {
+                        "Fn::FindInMap": [
+                          "AWSCloudFrontPartitionHostedZoneIdMap",
+                          {
+                            "Ref": "AWS::Partition"
+                          },
+                          "zoneId"
+                        ]
+                      },
+                      "dnsName": {
+                        "Fn::GetAtt": [
+                          "DistributionCFDistribution882A7313",
+                          "DomainName"
+                        ]
+                      }
+                    },
+                    "hostedZoneId": "Z00235104U20H7X9ENQ3"
+                  }
+                }
+              }
+            }
+          },
+          "AWSCloudFrontPartitionHostedZoneIdMap": {
+            "id": "AWSCloudFrontPartitionHostedZoneIdMap",
+            "path": "CdkCloudfrontReverseProxyStack/AWSCloudFrontPartitionHostedZoneIdMap"
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "CdkCloudfrontReverseProxyStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "CdkCloudfrontReverseProxyStack/CDKMetadata/Default"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
